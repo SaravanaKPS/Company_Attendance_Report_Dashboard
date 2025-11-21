@@ -1,115 +1,88 @@
-# Sales Data Analysis Dashboard
+# Company Attendance Report Dashboard
 
-**Project:** Sales Data Analysis Dashboard
-**Description:** Interactive Power BI dashboard that visualizes sales performance by product, city, month, and time-of-day. Includes KPIs, trend charts, category breakdowns and a map view.
+Project: Company Attendance Report Dashboard
+Description: Interactive Power BI dashboard that visualizes employee attendance, overtime hours, permission time, and salary metrics. Includes KPIs, monthly comparisons, OT trend analysis, and detailed employee profiles.
 
----
+Files
 
-## Files
+Dataset (XLSX): /mnt/data/Attendance_Report_365Days_2025.xlsx
 
-* Dataset (CSV): `/mnt/data/Sales Data Analysis.csv`
-* Dashboard preview image: `/mnt/data/sa.png`
+Dashboard preview image: /mnt/data/Screenshot 2025-11-21 113841.png
 
-> If you publish this repo to GitHub, replace the local dataset path above with a relative path (for example `data/Sales Data Analysis.csv`) and add the `data/` file to the repository or a Git LFS solution if the file is large.
+When uploading to GitHub, move these into folders like:
+data/Attendance_Report_365Days_2025.xlsx
+images/attendance_dashboard.png
 
----
+How to open & reproduce (Power BI)
 
-## How to open & reproduce (Power BI)
+Open Power BI Desktop
 
-1. Open **Power BI Desktop**.
-2. Get Data → **Text/CSV** → select the dataset: `/mnt/data/Sales Data Analysis.csv`.
-3. In **Power Query Editor** clean and transform as needed (see *Power Query notes* below). Click **Close & Apply**.
-4. Recreate visuals (or load the provided PBIX if you include one):
+Get Data → Excel → select dataset
 
-   * Line chart: Sales by Month
-   * Column chart: Sales by City
-   * Bar chart: Sum of Sales by Product
-   * Donut chart: Category share
-   * Pie chart: Sales by Time of Day
-   * KPI cards: Current month sales, City sales vs. goal
-   * Map (or Filled Map): Geo sales distribution
-5. Add tooltips, slicers, and drill-through pages for detail.
+Clean in Power Query:
 
----
+Promote Headers
 
-## Power Query (M) notes
+Change data types
 
-* Steps commonly used:
+Create Month, Status, OT buckets
 
-  * `Promote Headers`
-  * `Change Type` for dates/numeric columns
-  * `Split Column` (if product or city combined)
-  * `Group By` to create summary tables for visuals
-  * `Merge Queries` when joining lookup tables (products, cities)
-* Suggested M functions to include:
+Create visuals:
 
-  * Calculated date columns (Month, Year, MonthName)
-  * Normalize city/product names (Trim, Lowercase)
-  * Remove duplicates and null rows
+Employee KPIs
 
----
+OT By Day (Line Chart)
 
-## DAX measures (suggested)
+Attendance Donut Chart
 
-* `Total Sales = SUM('Sales'[Amount])`
-* `Sales This Month = CALCULATE([Total Sales], FILTER(ALL('Date'), 'Date'[Month] = MONTH(TODAY()) && 'Date'[Year] = YEAR(TODAY())))`
-* `Sales vs Goal = DIVIDE([Total Sales], [Target Sales])`
-* Time-of-day buckets using `HOUR('Sales'[Time])` and `SWITCH` or `IF` logic
+Employee Info Cards
 
----
+Add filters: Name, Month
 
-## Data schema (example)
+Format with theme, borders, and conditional colors
 
-* `Date` — transaction date
-* `Time` — transaction time (or datetime)
-* `City` — customer city
-* `Product` — product name
-* `Category` — product category
-* `Quantity` — units sold
-* `Amount` — sales value (INR)
+Power Query notes
 
-Adjust column names to match the CSV headers.
+Common M-steps used:
 
----
+Promote Headers
 
-## Key insights (to highlight in README / project summary)
+Trim / Clean Text
 
-* Top products by revenue (e.g., MacBook Pro, iPhone, ThinkPad)
-* Highest-performing cities and underperforming regions
-* Monthly seasonality and end-of-month spikes
-* Peak purchasing times (morning/afternoon/evening)
-* Progress toward monthly/quarterly sales goals
+Group By for summaries
 
----
+Create custom date columns
 
-## Suggested repository structure
+Remove null/blank entries
 
-```
+DAX Measures
+Total OT Hours = SUM('Attendance'[OT_Hour])
+Permission Time Total = SUM('Attendance'[Permission_Time])
+Attendance % = DIVIDE(COUNTROWS(FILTER('Attendance','Attendance'[Status]="Present")), COUNTROWS('Attendance'))
+OT Allowance = [Total OT Hours] * 125
+
+Key Insights
+
+Highest OT contributing employees
+
+Attendance consistency pattern
+
+Permission-time trend
+
+Salary vs OT Allowance
+
+Monthly attendance distribution
+
+Repo Structure
 / (root)
 ├─ README.md
 ├─ data/
-│  └─ Sales Data Analysis.csv
+│  └─ Attendance_Report_365Days_2025.xlsx
 ├─ images/
-│  └─ sa.png
-├─ pbix/
-│  └─ Sales_Data_Analysis.pbix
-└─ docs/
-   └─ project_report.pdf
-```
+│  └─ attendance_dashboard.png
+└─ pbix/
+   └─ Attendance_Report.pbix
 
----
+License
 
-## License
-
-This project is available under the **MIT License** — feel free to reuse and adapt.
-
----
-
-If you want, I can:
-
-* Produce a ready-to-upload `README.md` file in the repo structure above.
-* Create a cleaned `data/` CSV (with cleaned column names) and save it for you.
-* Draft a short `project_report.pdf` or a resume-ready project blurb.
-
-Which one should I create next? (I can directly reference your local dataset at `/mnt/data/Sales Data Analysis.csv` when producing files.)
-# Company_Attendance_Report_Dashboard
+MIT License — open for use and modification.
